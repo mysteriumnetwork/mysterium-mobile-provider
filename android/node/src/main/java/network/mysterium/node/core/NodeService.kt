@@ -69,6 +69,7 @@ class NodeService : Service() {
     private var balanceTimer: Timer? = null
     private var endOfDayTimer: Timer? = null
     private var mobileLimitJob: Job? = null
+    private var isServiceStarted: Boolean = false
 
     override fun onCreate() {
         networkReporter = NetworkReporter(this)
@@ -285,9 +286,14 @@ class NodeService : Service() {
         val batteryOption = if (config.allowUseOnBattery) true else batteryStatus.isCharging.value
         if (batteryOption && (wifiOption || mobileDataOption) && !isMobileLimitReached()) {
             // starting and stopping provider helps to display service status correctly
-            mobileNode?.stopProvider()
-            mobileNode?.startProvider()
+            if (!isServiceStarted) {
+                mobileNode?.startProvider()
+                isServiceStarted = true
+            } else {
+                return@withContext
+            }
         } else {
+            isServiceStarted = false
             mobileNode?.stopProvider()
         }
     }
