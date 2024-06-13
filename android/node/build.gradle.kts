@@ -36,7 +36,8 @@ android {
 
 dependencies {
     implementation(libs.bundles.core)
-    implementation(libs.bundles.node)
+    implementation(files("/Users/geniuseehryhorov/Projects/Mysterium/provider-mobile-node-1.29.22.aar"))
+    implementation(libs.mysterium.node.terms)
     implementation(libs.bundles.di)
     implementation(libs.bundles.serialization)
     implementation(libs.bundles.analytics)
