@@ -1,18 +1,9 @@
 package network.mysterium.provider.ui.screens.nodeui
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.navigationBars
-import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.foundation.layout.statusBars
-import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import network.mysterium.provider.ui.components.buttons.HomeButton
 import network.mysterium.provider.ui.components.buttons.SettingsButton
@@ -51,9 +42,6 @@ private fun NodeUIScreenContent(
 ) {
 
     LogoScreenContent(
-        modifier = Modifier
-            .statusBarsPadding()
-            .navigationBarsPadding(),
         navLeading = {
             if (state.isRegistered) {
                 HomeButton {
