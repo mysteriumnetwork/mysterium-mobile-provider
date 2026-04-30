@@ -19,3 +19,6 @@ build
 
 # provider-mobile-node AAR is downloaded by the `downloadProviderMobileNode` Gradle task
 /libs/
+
+# JVM heap dumps from OOM crashes
+*.hprof
