@@ -45,8 +45,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility(1.8)
-        targetCompatibility(1.8)
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
 
     buildFeatures {

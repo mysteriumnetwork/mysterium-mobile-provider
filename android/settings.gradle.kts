@@ -14,8 +14,15 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
 
-        maven {
-            url = uri("libs")
+        exclusiveContent {
+            forRepository {
+                maven {
+                    url = uri("libs")
+                }
+            }
+            filter {
+                includeModule("network.mysterium", "provider-mobile-node")
+            }
         }
     }
 }
