@@ -12,6 +12,41 @@ Mobile VPN app for Mysterium Network.
 2. `brew install --cask android-studio`
 3. Download project's firebase crashlytics config - `google-services.json` from https://console.firebase.google.com/u/1/project/mysterium-vpn/overview and place it in `android/app`
 
+## Mysterium Node dependency
+
+The Android app depends on the Mysterium Node SDK (`network.mysterium:provider-mobile-node`). After version `1.30.3` (March 2024), Mysterium stopped publishing this artifact to Maven Central — newer versions are published only as assets on the [`mysteriumnetwork/node` GitHub releases](https://github.com/mysteriumnetwork/node/releases).
+
+To handle that without bloating the repo with an ~85MB AAR, the build downloads the artifact on demand.
+
+### How it works
+
+- The version is declared in [`android/gradle/libs.versions.toml`](android/gradle/libs.versions.toml) as `node = "x.y.z"`.
+- A Gradle task `downloadProviderMobileNode` (defined in [`android/build.gradle.kts`](android/build.gradle.kts)) downloads `provider-mobile-node-{version}.aar` and `.pom` from the matching GitHub release into `android/libs/network/mysterium/provider-mobile-node/{version}/`.
+- The task is wired as a dependency of `preBuild` for every Android module, so it runs automatically before any build.
+- It's cached: re-runs are `UP-TO-DATE` and make no network calls when the files already exist.
+- [`android/settings.gradle.kts`](android/settings.gradle.kts) declares `android/libs/` as a local Maven repository (`maven { url = uri("libs") }`), so the dependency resolves through standard Gradle mechanisms — no `@aar` hacks.
+- `android/libs/` is gitignored — the AAR never enters git history.
+
+### Developer onboarding
+
+A fresh clone + `./gradlew assembleDebug` (or opening the project in Android Studio and syncing) just works. The AAR is downloaded on the first build automatically. No manual setup required.
+
+### Bumping the node version
+
+1. Edit [`android/gradle/libs.versions.toml`](android/gradle/libs.versions.toml) and change `node = "x.y.z"` to the desired version. Available versions: https://github.com/mysteriumnetwork/node/releases
+2. Sync / build the project. The new AAR + POM will be downloaded automatically.
+3. Verify the app builds and launches. API changes between minor versions can require code adjustments in the `:node` module.
+
+### Manual download (offline / debugging)
+
+If you need to download the artifact without running a build:
+
+```bash
+cd android && ./gradlew downloadProviderMobileNode
+```
+
+The files land in `android/libs/network/mysterium/provider-mobile-node/{version}/`.
+
 ### Local development
 
 - Build Mysterium Node from source code:
@@ -82,4 +117,4 @@ Public releases are promoted and managed from the Google Play Console.
 
 #### Bump mobile-node version
 
-- Update "mysterium.network:mobile-node" gradle dependency to a [published version of mobile-node](https://maven.mysterium.network/releases/network/mysterium/mobile-node)
+See the [Bumping the node version](#bumping-the-node-version) section above.

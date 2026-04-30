@@ -1,0 +1,21 @@
+*.iml
+.gradle
+/local.properties
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+
+# Ignore Gradle build output directory
+build
+
+# provider-mobile-node AAR is downloaded by the `downloadProviderMobileNode` Gradle task
+/libs/

@@ -1,0 +1,108 @@
+[versions]
+compileSdk = "37"
+minSdk = "24"
+targetSdk = "37"
+android-application = "9.2.0"
+kotlin = "2.3.21"
+ktx = "1.18.0"
+ktx-lifecycle-runtime = "2.10.0"
+compose-activity = "1.13.0"
+compose-bom = "2026.04.01"
+compose-navigation = "2.9.8"
+accompanist = "0.37.3"
+node-terms = "0.0.50"
+node = "1.38.1"
+koin = "4.2.1"
+koin-compose = "4.2.1"
+markwon = "4.6.2"
+kotlinx-serialization = "1.11.0"
+kotlinx-serialization-json = "1.11.0"
+sentry = "6.5.0"
+retrofit = "3.0.0"
+retrofit-serialization = "1.0.0"
+okhttp = "5.3.2"
+firebase-analytics = "22.5.0"
+firebase-plugin = "4.4.4"
+
+[libraries]
+androidx-ktx = { module = "androidx.core:core-ktx", version.ref = "ktx" }
+androidx-lifecycle-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "ktx-lifecycle-runtime" }
+androidx-compose-activity = { module = "androidx.activity:activity-compose", version.ref = "compose-activity" }
+androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
+androidx-compose-ui = { module = "androidx.compose.ui:ui" }
+androidx-compose-ui-graphics = { module = "androidx.compose.ui:ui-graphics" }
+androidx-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
+androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
+androidx-compose-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest" }
+androidx-compose-material3 = { module = "androidx.compose.material3:material3" }
+androidx-compose-foundation = { module = "androidx.compose.foundation:foundation" }
+androidx-compose-navigation = { module = "androidx.navigation:navigation-compose", version.ref = "compose-navigation" }
+mysterium-node-terms = { module = "network.mysterium:terms", version.ref = "node-terms" }
+mysterium-node = { module = "network.mysterium:provider-mobile-node", version.ref = "node" }
+koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
+koin-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin-compose" }
+markdown = { module = "io.noties.markwon:core", version.ref = "markwon" }
+kotlinx-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization-json" }
+retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+retrofit-serialization = { module = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter", version.ref = "retrofit-serialization" }
+okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
+firebase-analytics = { module = "com.google.firebase:firebase-analytics-ktx", version.ref = "firebase-analytics" }
+accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanist" }
+
+
+[bundles]
+core = [
+    "androidx-ktx",
+    "androidx-lifecycle-ktx",
+]
+compose = [
+    "androidx-compose-activity",
+    "androidx-compose-ui",
+    "androidx-compose-ui-graphics",
+    "androidx-compose-ui-tooling-preview",
+    "androidx-compose-material3",
+    "androidx-compose-foundation",
+]
+navigation = [
+    "androidx-compose-navigation"
+]
+accompanist-tools = [
+    "accompanist-permissions",
+]
+compose-debug = [
+    "androidx-compose-ui-tooling",
+    "androidx-compose-ui-test-manifest"
+]
+node = [
+    "mysterium-node",
+    "mysterium-node-terms",
+]
+di = [
+    "koin-core",
+    "koin-compose"
+]
+serialization = [
+    "kotlinx-serialization",
+    "kotlinx-serialization-json"
+]
+
+retrofit = [
+    "retrofit",
+    "retrofit-serialization",
+    "okhttp",
+]
+
+analytics = [
+    "firebase-analytics",
+]
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "android-application" }
+android-library = { id = "com.android.library", version.ref = "android-application" }
+kotlin = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+sentry = { id = "io.sentry.android.gradle", version.ref = "sentry" }
+firebase = { id = "com.google.gms.google-services", version.ref = "firebase-plugin" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
