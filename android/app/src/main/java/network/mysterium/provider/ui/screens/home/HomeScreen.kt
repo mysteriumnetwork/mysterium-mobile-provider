@@ -42,11 +42,11 @@ import network.mysterium.provider.ui.screens.home.views.ServiceItem
 import network.mysterium.provider.ui.theme.Colors
 import network.mysterium.provider.ui.theme.Paddings
 import network.mysterium.provider.ui.theme.TextStyles
-import org.koin.androidx.compose.getViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun HomeScreen(
-    viewModel: HomeViewModel = getViewModel(),
+    viewModel: HomeViewModel = koinViewModel(),
     onNavigate: (NavigationDestination) -> Unit
 ) {
     val state by viewModel.uiState.collectAsState()

@@ -1,11 +1,18 @@
-import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+import java.util.Properties
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
-@Suppress("DSL_SCOPE_VIOLATION")
+val localProperties = Properties().apply {
+    val file = rootProject.file("local.properties")
+    if (file.exists()) file.inputStream().use { load(it) }
+}
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin)
     alias(libs.plugins.sentry)
     alias(libs.plugins.serialization)
+    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.firebase)
 }
 
 android {
@@ -24,7 +31,7 @@ android {
             useSupportLibrary = true
         }
 
-        manifestPlaceholders["SENTRY"] = gradleLocalProperties(rootDir).getProperty("sentry")
+        manifestPlaceholders["SENTRY"] = localProperties.getProperty("sentry") ?: ""
     }
 
     buildTypes {
@@ -42,22 +49,20 @@ android {
         targetCompatibility(1.8)
     }
 
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-
     buildFeatures {
         compose = true
     }
 
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.7"
-    }
-
-    packagingOptions {
+    packaging {
         resources {
             resources.excludes.add("/META-INF/{AL2.0,LGPL2.1}")
         }
+    }
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_1_8)
     }
 }
 

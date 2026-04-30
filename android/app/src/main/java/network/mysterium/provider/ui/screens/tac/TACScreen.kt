@@ -31,11 +31,11 @@ import network.mysterium.provider.ui.navigation.NavigationDestination
 import network.mysterium.provider.ui.theme.Colors
 import network.mysterium.provider.ui.theme.Paddings
 import network.mysterium.provider.ui.theme.TextStyles
-import org.koin.androidx.compose.getViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun TACScreen(
-    viewModel: TACViewModel = getViewModel(),
+    viewModel: TACViewModel = koinViewModel(),
     onNavigation: (NavigationDestination) -> Unit
 ) {
     val state by viewModel.uiState.collectAsState()

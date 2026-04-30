@@ -43,13 +43,13 @@ import network.mysterium.provider.ui.components.logo.HeaderLogoStyle
 import network.mysterium.provider.ui.navigation.NavigationDestination
 import network.mysterium.provider.ui.theme.Paddings
 import network.mysterium.provider.ui.theme.Styles
-import org.koin.androidx.compose.getViewModel
+import org.koin.androidx.compose.koinViewModel
 
 private const val LAUNCH_EFFECT = "launch_effect"
 
 @Composable
 fun LaunchScreen(
-    viewModel: LaunchViewModel = getViewModel(),
+    viewModel: LaunchViewModel = koinViewModel(),
     onNavigate: (NavigationDestination) -> Unit
 ) {
     val context = LocalContext.current
