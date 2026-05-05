@@ -59,12 +59,12 @@ import network.mysterium.provider.ui.theme.Colors
 import network.mysterium.provider.ui.theme.MysteriumTheme
 import network.mysterium.provider.ui.theme.Paddings
 import network.mysterium.provider.ui.theme.TextStyles
-import org.koin.androidx.compose.getViewModel
+import org.koin.androidx.compose.koinViewModel
 import kotlin.system.exitProcess
 
 @Composable
 fun SettingsScreen(
-    viewModel: SettingsViewModel = getViewModel(),
+    viewModel: SettingsViewModel = koinViewModel(),
     isOnboarding: Boolean,
 
     onNavigate: (NavigationDestination) -> Unit

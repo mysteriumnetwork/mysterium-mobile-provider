@@ -31,17 +31,17 @@ fun AppNavigation() {
     ) {
         composable(route = Route.LAUNCH) {
             LaunchScreen {
-                navController.navigate(it)
+                navController.navigateTo(it)
             }
         }
         composable(route = Route.START) {
             StartScreen {
-                navController.navigate(it)
+                navController.navigateTo(it)
             }
         }
         composable(route = Route.TAC) {
             TACScreen {
-                navController.navigate(it)
+                navController.navigateTo(it)
             }
         }
         composable(
@@ -54,7 +54,7 @@ fun AppNavigation() {
         ) { backStackEntry ->
             val isOnboarding = backStackEntry.arguments?.getBoolean(Route.Arg.ONBOARDING) ?: false
             SettingsScreen(isOnboarding = isOnboarding) {
-                navController.navigate(it)
+                navController.navigateTo(it)
             }
         }
         composable(
@@ -86,12 +86,12 @@ fun AppNavigation() {
                 else -> null
             }
             NodeUIScreen(params) {
-                navController.navigate(it)
+                navController.navigateTo(it)
             }
         }
         composable(route = Route.HOME) {
             HomeScreen {
-                navController.navigate(it)
+                navController.navigateTo(it)
             }
         }
     }
@@ -131,7 +131,7 @@ val NavigationDestination.route: String
         NavigationDestination.Home -> Route.HOME
     }
 
-fun NavController.navigate(destination: NavigationDestination) {
+fun NavController.navigateTo(destination: NavigationDestination) {
     when (destination) {
         NavigationDestination.PopBack -> {
             popBackStack()

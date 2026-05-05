@@ -36,7 +36,7 @@ import network.mysterium.provider.ui.theme.Corners
 import network.mysterium.provider.ui.theme.MysteriumTheme
 import network.mysterium.provider.ui.theme.Paddings
 import network.mysterium.provider.ui.theme.TextStyles
-import org.koin.androidx.compose.getViewModel
+import org.koin.androidx.compose.koinViewModel
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.statusBars
 
@@ -98,7 +98,7 @@ private fun Header(modifier: Modifier = Modifier) {
 @Composable
 private fun Content(
     onNavigate: (NavigationDestination) -> Unit,
-    viewModel: StartScreenViewModel = getViewModel(),
+    viewModel: StartScreenViewModel = koinViewModel(),
 ) {
     Column(
         modifier = Modifier.fillMaxSize(),
