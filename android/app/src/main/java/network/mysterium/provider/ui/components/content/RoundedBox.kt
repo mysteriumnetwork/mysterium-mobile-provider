@@ -1,6 +1,7 @@
 package network.mysterium.provider.ui.components.content
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.PaddingValues
@@ -31,6 +32,11 @@ fun RoundedBox(
             .background(
                 color = color,
                 shape = RoundedCornerShape(Corners.default)
+            )
+            .border(
+                width = 1.dp,
+                color = Colors.borders,
+                shape = RoundedCornerShape(Corners.default),
             )
             .padding(contentPadding),
         contentAlignment = contentAlignment

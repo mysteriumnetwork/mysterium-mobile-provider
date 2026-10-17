@@ -22,7 +22,7 @@ val nodeModule = module {
         NetworkReporter(androidContext())
     }
 
-    single<Node> { NodeImpl(get(), get(), get()) }
+    single<Node> { NodeImpl(get(), get(), get(), get()) }
 
     single<NodeContainer> {
         NodeContainer(androidContext())

@@ -9,6 +9,7 @@ data class NodeConfig(
     val useMobileDataLimit: Boolean = false,
     val mobileDataLimit: Long? = null,
     val allowUseOnBattery: Boolean = true,
+    val publicServiceEnabled: Boolean = true,
     @SerialName("android_sso_deeplink")
     val androidSsoDeeplink: Boolean = true,
 )

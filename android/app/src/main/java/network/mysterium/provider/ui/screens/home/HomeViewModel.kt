@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import network.mysterium.node.Node
 import network.mysterium.node.model.NodeServiceType
+import network.mysterium.node.model.NodeStatus
 import network.mysterium.provider.core.CoreViewModel
 
 class HomeViewModel(
@@ -11,7 +12,7 @@ class HomeViewModel(
 ) : CoreViewModel<Home.Event, Home.State, Home.Effect>() {
 
     private val ignoreServices: List<NodeServiceType.Service> =
-        listOf(NodeServiceType.Service.WIREGUARD)
+        emptyList()
 
     init {
         viewModelScope.launch(defaultErrorHandler) { node.start() }
@@ -19,10 +20,15 @@ class HomeViewModel(
     }
 
     override fun createInitialState(): Home.State {
+        // NOTE: runs from CoreViewModel's init, i.e. during the super constructor —
+        // subclass constructor parameters (node) are NOT yet assigned here.
+        // Keep this free of `node` access; observeStatus() fills nodeStatus
+        // on the first emission anyway.
         return Home.State(
             services = emptyList(),
             isLimitReached = false,
-            balance = 0.0
+            balance = 0.0,
+            nodeStatus = NodeStatus.UNKNOWN
         )
     }
 
@@ -32,6 +38,7 @@ class HomeViewModel(
                 observeServices()
                 observeBalance()
                 observeLimit()
+                observeStatus()
             }
         }
     }
@@ -53,6 +60,12 @@ class HomeViewModel(
     private fun observeLimit() = launch {
         node.limitMonitor.collect {
             setState { copy(isLimitReached = it) }
+        }
+    }
+
+    private fun observeStatus() = launch {
+        node.status.collect {
+            setState { copy(nodeStatus = it) }
         }
     }
 }

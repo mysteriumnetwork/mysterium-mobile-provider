@@ -27,7 +27,7 @@ fun SecondaryButton(
         modifier = modifier.border(
             width = 1.dp,
             color = if (enabled) Colors.blue600 else Colors.grey400,
-            shape = RoundedCornerShape(Corners.small),
+            shape = RoundedCornerShape(Corners.default),
         )
     ) {
         PrimaryButton(

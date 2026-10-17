@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="notification_channel_name">Myst Nodes</string>
+    <string name="notification_status_connecting">Connecting…</string>
+    <string name="notification_uptime">Uptime %1$s</string>
+    <string name="notification_status_online">Online</string>
+    <string name="notification_status_no_network">Waiting for network</string>
+    <string name="notification_status_paused">Paused</string>
+    <string name="notification_status_unregistered">Not registered</string>
+    <string name="notification_status_failed">Monitoring failed</string>
+    <string name="notification_status_offline">Offline</string>
+</resources>

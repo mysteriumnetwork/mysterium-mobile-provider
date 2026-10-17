@@ -33,10 +33,16 @@ class NodeUIViewModel(
     }
 
     override fun createInitialState(): NodeUI.State {
+        // Called from CoreViewModel's constructor, i.e. BEFORE this class' own
+        // constructor properties (node, params, ...) are assigned. Touching
+        // `node` here throws a NullPointerException and crashes the app as soon
+        // as the dashboard opens. Use placeholders only; Event.Load fills in the
+        // real values.
         return NodeUI.State(
             url = "",
             reload = {},
             isRegistered = false,
+            publicServiceEnabled = true,
             ignoredUrls = listOf(
                 Config.stripeRedirectUrl,
                 Config.payPalRedirectUrl,
@@ -54,8 +60,21 @@ class NodeUIViewModel(
                             DeeplinkPath.Scheme.SSO -> node.nodeUIUrl + "/#/auth-sso" + Config.deeplinkSSO.queryPath + params.parameter
                             DeeplinkPath.Scheme.CLICKBOARDING -> node.nodeUIUrl + "/#/" + Config.deepLinkOnboardingClicking.scheme.scheme + Config.deepLinkOnboardingClicking.queryPath + params.parameter
                             null -> node.nodeUIUrl
-                        }
+                        },
+                        publicServiceEnabled = node.config.publicServiceEnabled
                     )
+                }
+            }
+
+            is NodeUI.Event.TogglePublicService -> {
+                setState { copy(publicServiceEnabled = event.enabled) }
+                launch {
+                    try {
+                        node.updateConfig(node.config.copy(publicServiceEnabled = event.enabled))
+                    } catch (error: Throwable) {
+                        Log.e("NodeUI", "Failed to update Public service", error)
+                        setState { copy(publicServiceEnabled = node.config.publicServiceEnabled) }
+                    }
                 }
             }
 

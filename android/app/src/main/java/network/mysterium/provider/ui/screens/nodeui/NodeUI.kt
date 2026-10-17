@@ -10,6 +10,7 @@ sealed class NodeUI {
         object Load : Event()
         data class SetReloadCallback(val reload: () -> Unit) : Event()
         data class UrlLoaded(val url: Uri) : Event()
+        data class TogglePublicService(val enabled: Boolean) : Event()
     }
 
     data class State(
@@ -17,6 +18,7 @@ sealed class NodeUI {
         val reload: () -> Unit,
         val isRegistered: Boolean,
         val ignoredUrls: List<String>,
+        val publicServiceEnabled: Boolean,
     ) : UIState
 
     sealed class Effect : UIEffect

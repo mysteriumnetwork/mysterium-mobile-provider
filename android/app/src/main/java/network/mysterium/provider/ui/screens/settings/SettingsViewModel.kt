@@ -25,6 +25,7 @@ class SettingsViewModel(
             isMobileDataOn = false,
             isMobileDataLimitOn = false,
             isAllowUseOnBatteryOn = false,
+            isPublicServiceOn = true,
             mobileDataLimit = null,
             mobileDataLimitInvalid = false,
             isSaveButtonEnabled = false,
@@ -50,6 +51,7 @@ class SettingsViewModel(
                         isMobileDataOn = config.useMobileData,
                         isMobileDataLimitOn = config.useMobileDataLimit,
                         isAllowUseOnBatteryOn = config.allowUseOnBattery,
+                        isPublicServiceOn = config.publicServiceEnabled,
                         continueButtonEnabled = continueEnabled,
                         mobileDataLimit = config.mobileDataLimit?.let {
                             Converter.bytesToMegabytes(it)
@@ -91,6 +93,11 @@ class SettingsViewModel(
                 setState { copy(isAllowUseOnBatteryOn = event.checked) }
             }
 
+            is Settings.Event.TogglePublicService -> {
+                updateNodeConfig(node.config.copy(publicServiceEnabled = event.checked))
+                setState { copy(isPublicServiceOn = event.checked) }
+            }
+
             is Settings.Event.UpdateLimit -> {
                 processLimitInput(event.value)
             }
@@ -120,6 +127,10 @@ class SettingsViewModel(
             Settings.Event.OnContinue -> {
                 analytics.trackEvent(AnalyticsEvent.OnboardingCompletedPressEvent)
                 startNodeInForeground()
+            }
+
+            Settings.Event.RestartNode -> {
+                restartNode()
             }
 
             Settings.Event.ShutDown -> {
@@ -173,6 +184,18 @@ class SettingsViewModel(
 
     private fun updateNodeConfig(config: NodeConfig) = launch {
         node.updateConfig(config)
+    }
+
+    /**
+     * Cuts the provider connection and re-establishes it. The app and the
+     * foreground service keep running — only the provider services bounce.
+     */
+    private fun restartNode() = launch {
+        setState { copy(isRestartingNode = true) }
+        withContext(ioDispatcher) {
+            node.restartServices()
+        }
+        setState { copy(isRestartingNode = false) }
     }
 
     private fun shutDownNode() = launch {

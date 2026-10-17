@@ -10,8 +10,9 @@ compose-activity = "1.13.0"
 compose-bom = "2026.04.01"
 compose-navigation = "2.9.8"
 accompanist = "0.37.3"
+work = "2.11.0"
 node-terms = "0.0.50"
-node = "1.38.1"
+node = "1.39.7"
 koin = "4.2.1"
 koin-compose = "4.2.1"
 markwon = "4.6.2"
@@ -49,6 +50,7 @@ retrofit-serialization = { module = "com.jakewharton.retrofit:retrofit2-kotlinx-
 okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics-ktx", version.ref = "firebase-analytics" }
 accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanist" }
+androidx-work = { module = "androidx.work:work-runtime-ktx", version.ref = "work" }
 
 
 [bundles]
@@ -69,6 +71,9 @@ navigation = [
 ]
 accompanist-tools = [
     "accompanist-permissions",
+]
+work = [
+    "androidx-work",
 ]
 compose-debug = [
     "androidx-compose-ui-tooling",

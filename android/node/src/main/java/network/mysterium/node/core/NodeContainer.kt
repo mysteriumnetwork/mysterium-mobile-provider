@@ -27,4 +27,15 @@ class NodeContainer(private val context: Context) {
             }
         }
     }
+
+    /**
+     * Drops the cached node instance after it has been shut down
+     * ([MobileNode.shutdown]) so the next [getInstance] call creates a
+     * fresh one. Without this, the app would keep handing out the dead
+     * instance after a "Shut down node" and the embedded TequilAPI/NodeUI
+     * (localhost:4449) would never come back.
+     */
+    fun reset() {
+        mobileNode = null
+    }
 }

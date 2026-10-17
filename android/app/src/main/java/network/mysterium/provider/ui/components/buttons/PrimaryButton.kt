@@ -44,7 +44,7 @@ fun PrimaryButton(
             disabledContainerColor = disabledColor,
         ),
         contentPadding = contentPadding,
-        shape = RoundedCornerShape(Corners.small),
+        shape = RoundedCornerShape(Corners.default),
         onClick = onClick,
         interactionSource = interactionSource,
     ) {

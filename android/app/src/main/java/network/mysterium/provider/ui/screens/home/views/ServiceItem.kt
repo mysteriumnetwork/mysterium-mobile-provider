@@ -1,5 +1,10 @@
 package network.mysterium.provider.ui.screens.home.views
 
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -11,8 +16,10 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -45,15 +52,11 @@ fun ServiceItem(
             ),
         contentAlignment = Alignment.Center
     ) {
-        Box(
+        StatusDot(
             modifier = Modifier
                 .padding(Paddings.serviceDot)
-                .align(Alignment.TopStart)
-                .size(10.dp)
-                .background(
-                    color = service.state.dotColor,
-                    shape = CircleShape
-                )
+                .align(Alignment.TopStart),
+            state = service.state
         )
         Text(
             modifier = Modifier.padding(Paddings.small),
@@ -63,6 +66,36 @@ fun ServiceItem(
             textAlign = TextAlign.Center
         )
     }
+}
+
+@Composable
+private fun StatusDot(
+    modifier: Modifier = Modifier,
+    state: NodeServiceType.State
+) {
+    val isRunning = state == NodeServiceType.State.RUNNING
+
+    // Subtle breathing effect on the running dot so the grid feels alive.
+    val transition = rememberInfiniteTransition(label = "statusDot")
+    val pulse by transition.animateFloat(
+        initialValue = 1f,
+        targetValue = if (isRunning) 0.3f else 1f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(durationMillis = 1200),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "pulse"
+    )
+
+    Box(
+        modifier = modifier
+            .size(10.dp)
+            .alpha(if (isRunning) pulse else 1f)
+            .background(
+                color = state.dotColor,
+                shape = CircleShape
+            )
+    )
 }
 
 @Preview(showBackground = true)

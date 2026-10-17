@@ -60,7 +60,6 @@ import network.mysterium.provider.ui.theme.MysteriumTheme
 import network.mysterium.provider.ui.theme.Paddings
 import network.mysterium.provider.ui.theme.TextStyles
 import org.koin.androidx.compose.koinViewModel
-import kotlin.system.exitProcess
 
 @Composable
 fun SettingsScreen(
@@ -78,8 +77,10 @@ fun SettingsScreen(
                 when (it) {
                     is Settings.Effect.Navigation -> onNavigate(it.destination)
                     Settings.Effect.CloseApp -> {
+                        // node.stop() already shut the service down cleanly —
+                        // a hard exitProcess(0) here would kill the whole process
+                        // for no reason and fight a future sticky restart.
                         context.getActivity()?.finishAndRemoveTask()
-                        exitProcess(0)
                     }
                 }
             }
@@ -231,6 +232,14 @@ private fun OptionsContent(
                 }
             )
 
+            SwitchOption(
+                title = stringResource(id = R.string.service_public),
+                checked = state.isPublicServiceOn,
+                onCheckedChange = {
+                    onEvent(Settings.Event.TogglePublicService(it))
+                }
+            )
+
             ButtonOption(
                 title = stringResource(id = R.string.node_ui),
                 subTitle = stringResource(id = R.string.open),
@@ -244,6 +253,22 @@ private fun OptionsContent(
                 painterResource = painterResource(id = R.drawable.ic_shut_down),
             ) {
                 onEvent(Settings.Event.ShutDown)
+            }
+
+            ButtonOption(
+                title = stringResource(id = R.string.restart_node),
+                subTitle = stringResource(
+                    id = if (state.isRestartingNode) {
+                        R.string.restarting
+                    } else {
+                        R.string.restart
+                    }
+                ),
+                painterResource = painterResource(id = R.drawable.ic_restart),
+            ) {
+                if (!state.isRestartingNode) {
+                    onEvent(Settings.Event.RestartNode)
+                }
             }
         }
 
@@ -366,6 +391,7 @@ private fun SettingsContentPreview() {
                 isMobileDataOn = true,
                 isMobileDataLimitOn = true,
                 isAllowUseOnBatteryOn = false,
+                isPublicServiceOn = true,
                 mobileDataLimit = 50,
                 mobileDataLimitInvalid = true,
                 isSaveButtonEnabled = true,

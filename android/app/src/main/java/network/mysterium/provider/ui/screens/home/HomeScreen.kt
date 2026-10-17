@@ -29,8 +29,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewParameter
 import network.mysterium.node.model.NodeServiceType
+import network.mysterium.node.model.NodeStatus
 import network.mysterium.provider.R
 import network.mysterium.provider.ui.components.buttons.PrimaryTextButton
 import network.mysterium.provider.ui.components.buttons.SettingsButton
@@ -39,6 +39,7 @@ import network.mysterium.provider.ui.navigation.NavigationDestination
 import network.mysterium.provider.ui.screens.home.views.BalanceItem
 import network.mysterium.provider.ui.screens.home.views.ErrorItem
 import network.mysterium.provider.ui.screens.home.views.ServiceItem
+import network.mysterium.provider.ui.screens.home.views.StatusItem
 import network.mysterium.provider.ui.theme.Colors
 import network.mysterium.provider.ui.theme.Paddings
 import network.mysterium.provider.ui.theme.TextStyles
@@ -119,6 +120,19 @@ fun HomeScreenContent(
                     }
 
                 }
+
+                item(span = { GridItemSpan(maxLineSpan) }) {
+                    Column(modifier = Modifier.fillMaxWidth()) {
+                        Header(text = stringResource(id = R.string.status))
+
+                        StatusItem(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(top = Paddings.default),
+                            status = state.nodeStatus
+                        )
+                    }
+                }
             }
             PrimaryTextButton(
                 modifier = Modifier
@@ -161,7 +175,8 @@ fun HomeScreenContentPreview() {
                 NodeServiceType(NodeServiceType.Service.WIREGUARD, NodeServiceType.State.RUNNING),
             ),
             isLimitReached = true,
-            balance = 0.0
+            balance = 0.0,
+            nodeStatus = NodeStatus.ONLINE
         )
     ) {
 

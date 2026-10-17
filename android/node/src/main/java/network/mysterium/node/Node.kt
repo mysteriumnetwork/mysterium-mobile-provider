@@ -1,10 +1,10 @@
 package network.mysterium.node
 
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 import network.mysterium.node.model.NodeConfig
 import network.mysterium.node.model.NodeIdentity
 import network.mysterium.node.model.NodeServiceType
+import network.mysterium.node.model.NodeStatus
 import network.mysterium.node.model.NodeTerms
 
 interface Node {
@@ -49,6 +49,13 @@ interface Node {
     val limitMonitor: StateFlow<Boolean>
 
     /**
+     * High-level node status (online, connecting, no network, …)
+     * derived by the node service. Drives the home screen status card
+     * and the notification status line.
+     */
+    val status: StateFlow<NodeStatus>
+
+    /**
      * Update node config
      */
     suspend fun updateConfig(config: NodeConfig)
@@ -67,6 +74,12 @@ interface Node {
      * Disable Android foreground service
      */
     fun disableForegroundService()
+
+    /**
+     * Cut the provider connection and re-establish it without
+     * restarting the app or the foreground service.
+     */
+    suspend fun restartServices()
 
     /**
      * Stops node and foreground service

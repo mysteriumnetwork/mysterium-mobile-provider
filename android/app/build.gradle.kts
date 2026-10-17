@@ -17,6 +17,10 @@ val hasReleaseSigning = listOf(
     releaseKeyPassword,
 ).all { !it.isNullOrBlank() }
 
+// GitHub Actions run number: makes every CI build strictly newer than the last
+// one (versionCode) and shows which build is installed (versionName).
+val ciRunNumber = System.getenv("GITHUB_RUN_NUMBER")?.toIntOrNull()
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin)
@@ -34,12 +38,19 @@ android {
         applicationId = "network.mysterium.provider"
         minSdk = libs.versions.minSdk.get().toInt()
         targetSdk = libs.versions.targetSdk.get().toInt()
-        versionCode = 11
-        versionName = "5.2.2"
+        // Base 100 keeps it above the previously released custom builds (12).
+        versionCode = 100 + (ciRunNumber ?: 0)
+        versionName = if (ciRunNumber != null) "5.2.3-custom.$ciRunNumber" else "5.2.3"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
+        }
+
+        // Real phones only: drop the x86/x86_64 copies of the Go node to shrink
+        // the APK a lot. Both ARM ABIs stay so 32-bit phones still install.
+        ndk {
+            abiFilters += listOf("arm64-v8a", "armeabi-v7a")
         }
 
         manifestPlaceholders["SENTRY"] = localProperties.getProperty("sentry") ?: ""

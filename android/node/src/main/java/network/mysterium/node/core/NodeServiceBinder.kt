@@ -16,5 +16,11 @@ internal interface NodeServiceBinder : IBinder {
     suspend fun startServices()
     suspend fun updateServices()
     fun stopServices()
+
+    /**
+     * Cuts the provider connection and re-establishes it without touching
+     * the app process or the foreground service.
+     */
+    suspend fun restartServices()
     fun stopSelf()
 }

@@ -12,9 +12,11 @@ sealed class Settings {
         data class ToggleMobileData(val checked: Boolean) : Event()
         data class ToggleLimit(val checked: Boolean) : Event()
         data class ToggleAllowUseOnBattery(val checked: Boolean) : Event()
+        data class TogglePublicService(val checked: Boolean) : Event()
         data class UpdateLimit(val value: String) : Event()
         object SaveMobileDataLimit : Event()
         object OnContinue : Event()
+        object RestartNode : Event()
         object ShutDown : Event()
         object ConfirmShutDown : Event()
         object CancelShutDown : Event()
@@ -24,10 +26,12 @@ sealed class Settings {
         val isMobileDataOn: Boolean,
         val isMobileDataLimitOn: Boolean,
         val isAllowUseOnBatteryOn: Boolean,
+        val isPublicServiceOn: Boolean,
         val mobileDataLimit: Long?,
         val mobileDataLimitInvalid: Boolean,
         val isSaveButtonEnabled: Boolean,
         val isStartingNode: Boolean,
+        val isRestartingNode: Boolean = false,
         val showShutDownConfirmation: Boolean,
         val nodeError: NodeError?,
         val continueButtonEnabled: Boolean,
