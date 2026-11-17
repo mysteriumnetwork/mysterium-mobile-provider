@@ -34,8 +34,8 @@ android {
         applicationId = "network.mysterium.provider"
         minSdk = libs.versions.minSdk.get().toInt()
         targetSdk = libs.versions.targetSdk.get().toInt()
-        versionCode = 11
-        versionName = "5.2.2"
+        versionCode = 12
+        versionName = "5.2.3"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
