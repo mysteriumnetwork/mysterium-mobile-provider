@@ -12,6 +12,20 @@
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
 
 
+    <!-- Both of these are IMPLIED as required="true" by the build tools:
+         android.hardware.wifi from the ACCESS_WIFI_STATE permission, and
+         android.hardware.screen.portrait from MainActivity's locked
+         orientation. Neither is essential - the node runs over any network
+         and the OS handles orientation on devices that can't do portrait -
+         so they are marked optional to keep the app installable on
+         ChromeOS/desktop, Android XR and some tablets. -->
+    <uses-feature
+        android:name="android.hardware.wifi"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.screen.portrait"
+        android:required="false" />
+
     <application
         android:name=".App"
         android:allowBackup="true"
